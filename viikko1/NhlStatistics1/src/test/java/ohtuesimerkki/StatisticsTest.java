@@ -5,117 +5,90 @@
  */
 package ohtuesimerkki;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author kxkivi
- */
 public class StatisticsTest {
+
+    Reader readerStub = new Reader() {
+
+        public List<Player> getPlayers() {
+            ArrayList<Player> players = new ArrayList<>();
+
+            players.add(new Player("Semenko", "EDM", 4, 12)); //16
+            players.add(new Player("Lemieux", "PIT", 45, 54));//99
+            players.add(new Player("Kurri", "EDM", 37, 53));  //90
+            players.add(new Player("Yzerman", "DET", 42, 56));//98
+            players.add(new Player("Gretzky", "EDM", 35, 89));//124
+
+            return players;
+        }
+    };
+
     Statistics stats;
-    private List<Player> players;
-    
+
     @Before
     public void setUp() {
-        Reader pelaajat = new TestPlayers();
-        stats = new Statistics(pelaajat);
-        players = pelaajat.getPlayers();
+        // luodaan Statistics-olio joka käyttää "stubia"
+        stats = new Statistics(readerStub);
     }
-    
+
     @Test
-    public void konstruktoriToimii() {
-        Reader uudetPelaajat = new TestPlayers();
-        assertEquals(uudetPelaajat, players);
+    public void konstruktoriLuoUudenStatsin() {
+
     }
-    
+
     @Test
-    public void pelaajahakuPalauttaaPelaajan() {
-        assertEquals(stats.search("Claude Giroux"), players.get(0));
+    public void etsiPelaajaPalauttaaPelaajan() {
+        Player one = stats.search("Semenko");
+        Player two = readerStub.getPlayers().get(0);
+        assertEquals(one.toString(), two.toString());
     }
-    
+
     @Test
-    public void pelaajahakuPalauttaaNull() {
-        assertEquals(stats.search("Aku Ankka"), null);
+    public void etsiPelaajaPalauttaaNull() {
+
+        assertEquals(stats.search("Hermanni"), null);
     }
-    
+
     @Test
-    public void tiimihakuToimii() {
-        players.remove(players.lastIndexOf(players));
-        assertEquals(stats.team("PHI"), players);
-    }
-    @Test
-    public void tiimihakuToimii2() {
-        ArrayList edmPelaajat = new ArrayList<>();
-        edmPelaajat.add(new Player("Connor McDavid", "EDM", 33, 72));
-        
-        assertEquals(stats.team("EDM"), edmPelaajat);
-    }
-    
-    @Test
-    public void toplistaToimii() {
-        Collections.sort(players);
-        ArrayList<Player> best = new ArrayList<>();
-        
-        for(int i = players.size(); i > players.size()-10; i--){
-            best.add(players.get(i));
+    public void samanJoukkueenPelaajatLoytyvat() {
+        String first = readerStub.getPlayers().get(3).toString();
+        String other = "";
+
+        for (int i = 0; i < stats.team("DET").size(); i++) {
+            other = other + stats.team("DET").get(i).toString();
         }
-        assertEquals(best, stats.topScorers(10));
+
+        assertEquals(first, other);
     }
-}
 
-class TestPlayers implements Reader {
-
-    ArrayList<Player> players;
-
-    public TestPlayers() {
-        players = new ArrayList<>();
-
-        //Philadelphia Flyers 2021
-        players.add(new Player("Claude Giroux", "PHI", 16, 27));
-        players.add(new Player("Justin Braun", "PHI", 1, 5));
-        players.add(new Player("James van Riemsdyk", "PHI", 17, 26));
-        players.add(new Player("Jakub Voracek", "PHI", 9, 34));
-        players.add(new Player("Nate Prosser", "PHI", 1, 1));
-        players.add(new Player("Kevin Hayes", "PHI", 12, 19));
-        players.add(new Player("Andy Andreoff", "PHI", 0, 0));
-        players.add(new Player("Sean Couturier", "PHI", 18, 23));
-        players.add(new Player("Scott Laughton", "PHI", 9, 11));
-        players.add(new Player("Shayne Gostisbehere", "PHI", 9, 11));
-        players.add(new Player("Robert Hagg", "PHI", 2, 3));
-        players.add(new Player("Samuel Morin", "PHI", 1, 0));
-        players.add(new Player("Travis Sanheim", "PHI", 3, 12));
-        players.add(new Player("Nicolas Aube-Kubel", "PHI", 3, 9));
-        players.add(new Player("Oskar Lindblom", "PHI", 8, 6));
-        players.add(new Player("David Kase", "PHI", 0, 0));
-        players.add(new Player("Travis Konecny", "PHI", 11, 23));
-        players.add(new Player("Ivan Provorov", "PHI", 7, 19));
-        players.add(new Player("Philippe Myers", "PHI", 1, 10));
-        players.add(new Player("Wade Allison", "PHI", 4, 3));
-        players.add(new Player("Carsen Twarynski", "PHI", 0, 0));
-        players.add(new Player("Connor Bunnaman", "PHI", 0, 1));
-        players.add(new Player("Tanner Laczynski", "PHI", 0, 0));
-        players.add(new Player("Nolan Patrick", "PHI", 4, 5));
-        players.add(new Player("Morgan Frost", "PHI", 0, 0));
-        players.add(new Player("Maksim Sushko", "PHI", 0, 0));
-        players.add(new Player("Joel Farabee", "PHI", 20, 18));
-        players.add(new Player("Egor Zamula", "PHI", 0, 0));
-        players.add(new Player("Cam York", "PHI", 0, 0));
-        players.add(new Player("Jackson Cates", "PHI", 0, 1));
-        players.add(new Player("Brian Elliott", "PHI", 0, 0));
-        players.add(new Player("Alex Lyon", "PHI", 0, 0));
-        players.add(new Player("Carter Hart", "PHI", 0, 0));
+    @Test
+    public void parhaidenPelaajienKartoitusToimii() {
+        ArrayList<Player> j = new ArrayList<>();
         
-        players.add(new Player("Connor McDavid", "EDM", 33, 72));
-    }
-
-    @Override
-    public List<Player> getPlayers() {
-        return this.players;
+        j.add(readerStub.getPlayers().get(4));
+        j.add(readerStub.getPlayers().get(1));
+        j.add(readerStub.getPlayers().get(3));
+        j.add(readerStub.getPlayers().get(2));
+        j.add(readerStub.getPlayers().get(0));
+        
+        List<Player> k = stats.topScorers(4);
+        
+        boolean samat = true;
+        
+        for(int i = 0; i < 5; i++){
+            if(j.get(i).toString().equals(k.get(i).toString())){
+                samat = true;
+            } else {
+                samat = false;
+            }
+        }
+        
+        Assert.assertTrue(samat);
     }
 
 }
