@@ -11,7 +11,7 @@ public class Laskin {
     }
     
     public void suorita(){
-        while( true ) {
+       // while( true ) {
             System.out.println("luku 1: ");
             int luku1 = lukija.nextInt();
             if ( luku1==-9999  ) return;
@@ -22,7 +22,7 @@ public class Laskin {
             
             int vastaus = laskeSumma(luku1, luku2);
             System.out.println("summa: "+ vastaus);
-        }
+        //}
     }
 
     private int laskeSumma(int luku1, int luku2) {
