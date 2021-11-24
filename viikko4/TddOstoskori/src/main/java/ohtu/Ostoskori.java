@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Ostoskori {
     ArrayList<Ostos> ostokset = new ArrayList<>();
+    int hinta;
  
     public int tavaroitaKorissa() {
         // kertoo korissa olevien tavaroiden lukumäärän
@@ -18,11 +19,12 @@ public class Ostoskori {
     public int hinta() {
         // kertoo korissa olevien tuotteiden yhteenlasketun hinnan
         if(ostokset.isEmpty()) return 0;
-        return -1;
+        return hinta;
     }
  
     public void lisaaTuote(Tuote lisattava) {
         ostokset.add(new Ostos(lisattava));
+        hinta += lisattava.getHinta();
     }
  
     public void poista(Tuote poistettava) {
