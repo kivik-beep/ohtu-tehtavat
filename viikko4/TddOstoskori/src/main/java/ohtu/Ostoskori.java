@@ -43,7 +43,7 @@ public class Ostoskori {
     public List<Ostos> ostokset() {
         // palauttaa listan jossa on korissa olevat ostokset
 
-        return null;
+        return ostokset;
     }
 
     public void tyhjenna() {
