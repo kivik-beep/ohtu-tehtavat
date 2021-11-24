@@ -16,10 +16,9 @@ public class OstoskoriTest {
 
     // step 1
     @Test
-    public void ostoskorinHintaJaTavaroidenMaaraAlussa() { 
+    public void ostoskorinHintaJaTavaroidenMaaraAlussa() {
         assertEquals(0, kori.hinta());
- 
-        // ...
+        assertEquals(0, kori.tavaroitaKorissa());
     }
 
 }
