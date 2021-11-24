@@ -42,18 +42,24 @@ public class Ostoskori {
     }
 
     public void poista(Tuote poistettava) {
-        for(Ostos o: ostokset){
-            if (o.tuotteenNimi().equals(poistettava.getNimi())){
+        for (Ostos o : ostokset) {
+            if (o.tuotteenNimi().equals(poistettava.getNimi())) {
                 o.muutaLukumaaraa(-1);
                 hinta -= poistettava.getHinta();
                 tavaroita--;
+            }
+        }
+
+        for (int i = 0; i < ostokset.size(); i++) {
+            if (ostokset.get(i).lukumaara() == 0) {
+                ostokset.remove(i);
+                i--;
             }
         }
     }
 
     public List<Ostos> ostokset() {
         // palauttaa listan jossa on korissa olevat ostokset
-
         return ostokset;
     }
 

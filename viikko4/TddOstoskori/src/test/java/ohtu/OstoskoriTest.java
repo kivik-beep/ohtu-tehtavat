@@ -157,4 +157,16 @@ public class OstoskoriTest {
         assertEquals(1, ostos.lukumaara());
         assertEquals("maito", ostos.tuotteenNimi());
     }
+
+    // step 13
+    @Test
+    public void josAinoanOstoksenAinoaTuotePoistetaanOnKoriTyhja() {
+        Tuote maito = new Tuote("maito", 3);
+        kori.lisaaTuote(maito);
+        kori.poista(maito);
+
+        assertEquals(0, kori.hinta());
+        assertEquals(0, kori.tavaroitaKorissa());
+        assertEquals(0, kori.ostokset.size());
+    }
 }
