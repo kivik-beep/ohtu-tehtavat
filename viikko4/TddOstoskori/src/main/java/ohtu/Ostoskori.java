@@ -26,10 +26,15 @@ public class Ostoskori {
     }
 
     public void lisaaTuote(Tuote lisattava) {
-        Ostos ostos = new Ostos(lisattava);
-        if (ostokset.contains(ostos)) {
-            ostos.muutaLukumaaraa(1);
-        } else {
+        boolean korissa = false;
+        for (Ostos ostos : ostokset) {
+            if (ostos.tuotteenNimi().equals(lisattava.getNimi())) {
+                ostos.muutaLukumaaraa(1);
+                korissa = true;
+            }
+        }
+
+        if (!korissa) {
             ostokset.add(new Ostos(lisattava));
         }
         tavaroita++;
