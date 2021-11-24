@@ -63,7 +63,7 @@ public class OstoskoriTest {
         kori.lisaaTuote(maito);
         kori.lisaaTuote(mehu);
 
-        assertEquals(7, kori.hinta);
+        assertEquals(7, kori.hinta());
     }
 
     // step 6
@@ -85,7 +85,7 @@ public class OstoskoriTest {
         kori.lisaaTuote(maito);
         kori.lisaaTuote(maito);
 
-        assertEquals(6, kori.hinta);
+        assertEquals(6, kori.hinta());
     }
 
     // step 8
