@@ -91,10 +91,22 @@ public class OstoskoriTest {
     // step 8
     @Test
     public void yhdenTuotteenLisaamisenJalkeenKorissaYksiOstosOlio() {
-        kori.lisaaTuote(new Tuote("tuote1",2));
+        kori.lisaaTuote(new Tuote("tuote1", 2));
 
         List<Ostos> ostokset = kori.ostokset();
 
         assertEquals(1, ostokset.size());
+    }
+
+    // step 9
+    @Test
+    public void yhdenTuotteenLisaamisenKorissaYksiOstosOlioJollaOikeaTuotteenNimiJaMaara() {
+        Tuote maito = new Tuote("maito", 3);
+        kori.lisaaTuote(maito);
+
+        Ostos ostos = kori.ostokset().get(0);
+
+        assertEquals(1, ostos.lukumaara());
+        assertEquals("maito", ostos.tuotteenNimi());
     }
 }
